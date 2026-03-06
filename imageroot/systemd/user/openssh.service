@@ -16,16 +16,14 @@ EnvironmentFile=%S/state/environment
 WorkingDirectory=%S/state
 Restart=always
 ExecStartPre=/bin/rm -f %t/openssh.pid %t/openssh.ctr-id
-ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run \
     --detach \
     --conmon-pidfile=%t/openssh.pid \
     --cidfile=%t/openssh.ctr-id \
     --cgroups=no-conmon \
     --replace --name=%N \
-    --publish=127.0.0.1:${TCP_PORT}:8080 \
-    --env-file=smarthost.env \
-    ${ECHO_SERVER_IMAGE}
+    --publish=${TCP_PORT}:2222 \
+    ${OPENSSH_SERVER_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/openssh.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/openssh.ctr-id
 PIDFile=%t/openssh.pid
