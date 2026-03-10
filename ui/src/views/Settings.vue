@@ -48,16 +48,16 @@
               ref="user"
             >
             </cv-text-input>
-            <cv-text-input
+            <NsTextInput
               :label="$t('settings.password')"
-              placeholder="Nethesis,1234"
-              v-model.trim="password"
-              class="mg-bottom"
-              :invalid-message="$t(error.password)"
+              v-model="password"
+              :placeholder="Unchanged"              
               :disabled="loading.getConfiguration || loading.configureModule"
+              :invalid-message="error.password"
+              type="password"
+              minlength="8"
               ref="password"
-            >
-            </cv-text-input>
+            ></NsTextInput>
             <cv-toggle
               value="sudoAccess"
               :label="$t('settings.sudo_access')"
