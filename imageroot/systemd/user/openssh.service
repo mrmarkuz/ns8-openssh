@@ -4,7 +4,7 @@
 #
 
 #
-# This systemd unit starts a openssh instance using Podman.
+# This systemd unit starts an openssh instance using Podman.
 # Most parts of this file come from podman-generate-systemd.
 #
 [Unit]
@@ -16,6 +16,7 @@ EnvironmentFile=%S/state/environment
 WorkingDirectory=%S/state
 Restart=always
 ExecStartPre=/bin/rm -f %t/openssh.pid %t/openssh.ctr-id
+ExecStartPre=/bin/mkdir -p config pubkeys
 ExecStart=/usr/bin/podman run \
     --detach \
     --conmon-pidfile=%t/openssh.pid \
@@ -23,6 +24,15 @@ ExecStart=/usr/bin/podman run \
     --cgroups=no-conmon \
     --replace --name=%N \
     --publish=${TCP_PORT}:2222 \
+    --network=pasta:--map-guest-addr,10.0.0.1 \
+    --env-file=config.env \
+    --env PUID=0 \
+    --env PGID=0 \
+    --env TZ=Etc/UTC \
+    --env PUBLIC_KEY_DIR=./pubkeys \
+    --env USER_PASSWORD=${PASSWORD} \
+    --env LOG_STDOUT=true \
+    --volume ./config:/config:z \
     ${OPENSSH_SERVER_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/openssh.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/openssh.ctr-id

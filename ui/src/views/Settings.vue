@@ -23,15 +23,76 @@
       <cv-column>
         <cv-tile light>
           <cv-form @submit.prevent="configureModule">
-            <!-- TODO remove test field and code configuration fields -->
-            <cv-text-input
-              :label="$t('settings.test_field')"
-              v-model="testField"
-              :placeholder="$t('settings.test_field')"
+            <!-- TODO remove test field and code configuration fields -->            
+            <cv-toggle
+              value="passwordAccess"
+              :label="$t('settings.password_access')"
+              v-model="passwordAccess"
               :disabled="loading.getConfiguration || loading.configureModule"
-              :invalid-message="error.testField"
-              ref="testField"
-            ></cv-text-input>
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $t("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $t("settings.enabled")
+              }}</template>
+            </cv-toggle>
+            <cv-text-input
+              :label="$t('settings.user')"
+              placeholder="sshuser"
+              v-model.trim="user"
+              class="mg-bottom"
+              :invalid-message="$t(error.user)"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              ref="user"
+            >
+            </cv-text-input>
+            <cv-text-input
+              :label="$t('settings.password')"
+              placeholder="Nethesis,1234"
+              v-model.trim="password"
+              class="mg-bottom"
+              :invalid-message="$t(error.password)"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              ref="password"
+            >
+            </cv-text-input>
+            <cv-toggle
+              value="sudoAccess"
+              :label="$t('settings.sudo_access')"
+              v-model="sudoAccess"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $t("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $t("settings.enabled")
+              }}</template>
+            </cv-toggle>
+            <template v-if="tcp_port">
+              <span class="mg-bottom">
+                {{ $t("settings.tcp_port") }}
+                <cv-tooltip
+                  alignment="start"
+                  direction="bottom"
+                  :tip="$t('settings.tcp_port_tips')"
+                  class="info mg-bottom"
+                >
+                </cv-tooltip>
+              </span>
+              <span>:</span>
+              <span class="mg-bottom mg-left">
+                {{ tcp_port }}
+              </span>
+              <section>                
+                <span>
+                <br>
+                </span>                
+              </section>
+            </template>
             <cv-row v-if="error.configureModule">
               <cv-column>
                 <NsInlineNotification
@@ -85,7 +146,11 @@ export default {
         page: "settings",
       },
       urlCheckInterval: null,
-      testField: "", // TODO remove
+      passwordAccess: "",
+      user: "",
+      password: "",
+      sudoAccess: "",
+      tcp_port: "",
       loading: {
         getConfiguration: false,
         configureModule: false,
@@ -93,8 +158,10 @@ export default {
       error: {
         getConfiguration: "",
         configureModule: "",
-        testField: "", // TODO remove
-        // TODO add all validation error fields
+        passwordAccess: "",
+        user: "",
+        password: "",
+        sudoAccess: "",
       },
     };
   },
@@ -163,24 +230,29 @@ export default {
 
       // TODO set configuration fields
       // ...
+      this.passwordAccess = config.password_access;
+      this.user = config.user;
+      this.password = config.password;
+      this.sudoAccess = config.sudo_access;
+      this.tcp_port = config.tcp_port;
 
       // TODO remove
       console.log("config", config);
 
       // TODO focus first configuration field
-      this.focusElement("testField");
+      this.focusElement("passwordAccess");
     },
     validateConfigureModule() {
       this.clearErrors(this);
       let isValidationOk = true;
 
       // TODO remove testField and validate configuration fields
-      if (!this.testField) {
-        // test field cannot be empty
-        this.error.testField = this.$t("common.required");
+      if (!this.user) {
+          //test field cannot be empty
+          this.error.user = this.$t("common.required");
 
         if (isValidationOk) {
-          this.focusElement("testField");
+          this.focusElement("user");
           isValidationOk = false;
         }
       }
@@ -237,6 +309,10 @@ export default {
           action: taskAction,
           data: {
             // TODO configuration fields
+            password_access: this.passwordAccess,
+            user: this.user,
+            password: this.password,
+            sudo_access: this.sudoAccess,
           },
           extra: {
             title: this.$t("settings.configure_instance", {

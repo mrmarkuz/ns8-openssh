@@ -8,7 +8,19 @@
 import json
 import sys
 import agent
+import os
 
-config = {}
+config = {'password_access': False, 'user': 'sshuser', 'password' : '', 'sudo_access': False}
+
+try:
+    # Read current configuration from config file
+    with open('config.json', 'r') as cf:
+        config = json.loads(cf.read())
+except:
+    pass
+# Do not expose password 
+config["password"] = ''
+
+config["tcp_port"] = os.environ.get("TCP_PORT","")
 
 json.dump(config, fp=sys.stdout)

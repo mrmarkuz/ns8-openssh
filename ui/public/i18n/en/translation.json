@@ -24,7 +24,15 @@
         "title": "Settings",
         "configure_instance": "Configure {instance}",
         "save": "Save",
-        "test_field": "Test field"
+        "test_field": "Test field",
+        "password_access": "Password access",
+        "sudo_access": "Sudo access",
+        "disabled": "Disabled",
+        "enabled": "Enabled",
+        "user": "SSH User",
+        "password": "Password",
+        "tcp_port": "SSH TCP Port",
+        "tcp_port_tips": "The OpenSSH server is reachable via that TCP port"
     },
     "about": {
         "title": "About"

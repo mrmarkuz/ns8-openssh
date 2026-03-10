@@ -9,4 +9,5 @@
 
 touch smarthost.env
 
-systemctl --user enable --now openssh.service
+systemctl --user enable openssh.service
+systemctl --user restart openssh.service
