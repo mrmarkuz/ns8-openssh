@@ -17,6 +17,8 @@ WorkingDirectory=%S/state
 Restart=always
 ExecStartPre=/bin/rm -f %t/openssh.pid %t/openssh.ctr-id
 ExecStartPre=/bin/mkdir -p config pubkeys
+ExecStartPre=/bin/bash -c "echo PUID=$(id -u) > ids.env"
+ExecStartPre=/bin/bash -c "echo PGID=$(id -g) >> ids.env"
 ExecStart=/usr/bin/podman run \
     --detach \
     --conmon-pidfile=%t/openssh.pid \
@@ -26,8 +28,7 @@ ExecStart=/usr/bin/podman run \
     --publish=${TCP_PORT}:2222 \
     --network=pasta:--map-guest-addr,10.0.0.1 \
     --env-file=config.env \
-#    --env PUID=0 \
-#    --env PGID=0 \
+    --env-file=ids.env \
     --env TZ=Etc/UTC \
     --env PUBLIC_KEY_DIR=./pubkeys \
     --env USER_PASSWORD=${PASSWORD} \
@@ -38,6 +39,7 @@ ExecStop=/usr/bin/podman stop --ignore --cidfile %t/openssh.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/openssh.ctr-id
 PIDFile=%t/openssh.pid
 Type=forking
+
 
 [Install]
 WantedBy=default.target
