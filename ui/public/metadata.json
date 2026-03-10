@@ -1,19 +1,19 @@
 {
-  "name": "openssh",
+  "name": "OpenSSH",
   "description": {
-    "en": "My openssh module"
+    "en": "OpenSSH is the premier connectivity tool for remote login with the SSH protocol"
   },
-  "categories": [],
+  "categories": ["system_administration"],
   "authors": [
     {
-      "name": "Name Surname",
-      "email": "author@yourmail.org"
+      "name": "Markus Neuberger",
+      "email": "dev@markusneuberger.at"
     }
   ],
   "docs": {
-    "documentation_url": "https://docs.openssh.com/",
-    "bug_url": "https://github.com/NethServer/dev",
-    "code_url": "https://github.com/author/ns8-openssh"
+    "documentation_url": "https://www.openssh.org/manual.html",
+    "bug_url": "https://community.nethserver.org",
+    "code_url": "https://github.com/mrmarkuz/ns8-openssh"
   },
   "source": "ghcr.io/nethserver/openssh"
 }
