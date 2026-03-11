@@ -7,7 +7,7 @@
 Install via Software center:
 
   - Add a Software repository pointing to `https://repo.mrmarkuz.com/ns8/updates/`, check out the [repo webpage](https://repo.mrmarkuz.com) how to do it
-  - Install Onlyoffice via Software Center
+  - Install OpenSSH via Software Center
 
 Or instantiate the module with:
 
@@ -26,7 +26,7 @@ Launch `configure-module`, by setting the following parameters:
 - `password_access`: Allow password access
 - `user`: Username
 - `password`: Password used when password access is allowed
-- `sudo_access`: Allow sudo for the user to execute `ping`, for example `sudo ping example.com`
+- `sudo_access`: Allow sudo for the SSH user which is needed to execute for example `ping` inside the container, i.e. `sudo ping example.com`
 
 Example:
 
