@@ -39,7 +39,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.authorizations=traefik@node:routeadm node:fwadm" \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.images=docker.io/linuxserver/openssh-server:10.2_p1-r0-ls218" \
+    --label="org.nethserver.images=docker.io/linuxserver/openssh-server:10.2_p1-r0-ls219" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
