@@ -4,7 +4,12 @@
 
 ## Install
 
-Instantiate the module with:
+Install via Software center:
+
+  - Add a Software repository pointing to `https://repo.mrmarkuz.com/ns8/updates/`, check out the [repo webpage](https://repo.mrmarkuz.com) how to do it
+  - Install Onlyoffice via Software Center
+
+Or instantiate the module with:
 
     add-module ghcr.io/nethserver/openssh:latest 1
 
@@ -18,62 +23,24 @@ Output example:
 Let's assume that the openssh instance is named `openssh1`.
 
 Launch `configure-module`, by setting the following parameters:
-- `<MODULE_PARAM1_NAME>`: <MODULE_PARAM1_DESCRIPTION>
-- `<MODULE_PARAM2_NAME>`: <MODULE_PARAM2_DESCRIPTION>
-- ...
+- `password_access`: Allow password access
+- `user`: Username
+- `password`: Password used when password access is allowed
+- `sudo_access`: Allow sudo for the user to execute `ping`, for example `sudo ping example.com`
 
 Example:
 
-    api-cli run module/openssh1/configure-module --data '{}'
+    api-cli run module/openssh1/configure-module --data '{"password_access": true, "user": "username", "password": "secret123", "sudo_access": false}'
 
 The above command will:
 - start and configure the openssh instance
-- (describe configuration process)
-- ...
 
-Send a test HTTP request to the openssh backend service:
+## Usage
 
-    curl http://127.0.0.1/openssh/
+The used SSH port to connect to the OpenSSH container can be found on the app settings page.
 
-## Smarthost setting discovery
+    ssh -p <port> user@example.com
 
-Some configuration settings, like the smarthost setup, are not part of the
-`configure-module` action input: they are discovered by looking at some
-Redis keys.  To ensure the module is always up-to-date with the
-centralized [smarthost
-setup](https://nethserver.github.io/ns8-core/core/smarthost/) every time
-openssh starts, the command `bin/discover-smarthost` runs and refreshes
-the `state/smarthost.env` file with fresh values from Redis.
+When connected it's possible to connect to the NS8 host using the IP 10.0.0.1:
 
-Furthermore if smarthost setup is changed when openssh is already
-running, the event handler `events/smarthost-changed/10reload_services`
-restarts the main module service.
-
-See also the `systemd/user/openssh.service` file.
-
-This setting discovery is just an example to understand how the module is
-expected to work: it can be rewritten or discarded completely.
-
-## Uninstall
-
-To uninstall the instance:
-
-    remove-module --no-preserve openssh1
-
-## Testing
-
-Test the module using the `test-module.sh` script:
-
-
-    ./test-module.sh <NODE_ADDR> ghcr.io/nethserver/openssh:latest
-
-The tests are made using [Robot Framework](https://robotframework.org/)
-
-## UI translation
-
-Translated with [Weblate](https://hosted.weblate.org/projects/ns8/).
-
-To setup the translation process:
-
-- add [GitHub Weblate app](https://docs.weblate.org/en/latest/admin/continuous.html#github-setup) to your repository
-- add your repository to [hosted.weblate.org]((https://hosted.weblate.org) or ask a NethServer developer to add it to ns8 Weblate project
+    ssh user@10.0.0.1
