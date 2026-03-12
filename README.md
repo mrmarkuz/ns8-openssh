@@ -44,3 +44,10 @@ The used SSH port to connect to the OpenSSH container can be found on the app se
 When connected it's possible to connect to the NS8 host using the IP 10.0.0.1:
 
     ssh user@10.0.0.1
+
+## Firewall
+
+It's possible to close the port to the original host system SSH service:
+
+    firewall-cmd --permanent --service=ssh --remove-port=22/tcp
+    firewall-cmd --reload
