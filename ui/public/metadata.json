@@ -15,5 +15,5 @@
     "bug_url": "https://community.nethserver.org",
     "code_url": "https://github.com/mrmarkuz/ns8-openssh"
   },
-  "source": "ghcr.io/nethserver/openssh"
+  "source": "ghcr.io/mrmarkuz/openssh"
 }
