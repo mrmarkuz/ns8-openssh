@@ -25,6 +25,10 @@
                 "node"
             ],
             "allowedVersions": "<=18"
+        },
+        {
+            "matchPackageNames": ["docker.io/linuxserver/openssh-server"],            
+            "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)_p(?<patch>\\d+)-r(?<build>\\d)-ls(?<revision>\\d+)"
         }
     ]
 }
