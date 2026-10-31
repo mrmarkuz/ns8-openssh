@@ -1,7 +1,11 @@
 {
   "name": "OpenSSH",
   "description": {
-    "en": "OpenSSH is the premier connectivity tool for remote login with the SSH protocol"
+    "en": "OpenSSH is a free, open-source suite of connectivity and security tools based on the SSH protocol",
+    "de": "OpenSSH ist eine kostenlose Open-Source-Suite von Konnektivitäts- und Sicherheitstools, die auf dem SSH-Protokoll basiert",
+    "fr": "OpenSSH est une suite gratuite et open source d’outils de connectivité et de sécurité, fondée sur le protocole SSH",
+    "it": "OpenSSH è una suite gratuita e open source di strumenti per la connettività e la sicurezza, basata sul protocollo SSH",
+    "es": "OpenSSH es un conjunto de herramientas de conectividad y seguridad, gratuito y de código abierto, basado en el protocolo SSH"
   },
   "categories": ["system_administration"],
   "authors": [
